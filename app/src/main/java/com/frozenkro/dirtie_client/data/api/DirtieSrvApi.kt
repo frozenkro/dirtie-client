@@ -13,12 +13,15 @@ interface DirtieSrvApi {
     @POST("auth/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<User>
 
+    @POST("auth/logout")
+    suspend fun logout()
+
     @POST("auth/forgot-password")
     suspend fun forgotPassword(@Body email: String): Response<Unit>
 
     @GET("devices")
-    suspend fun getDevices(@Header("Authorization") token: String): Response<List<Device>>
+    suspend fun getDevices(): Response<List<Device>>
 
     @POST("devices/provision")
-    suspend fun getProvisioningToken(@Header("Authorization") token: String): Response<String>
+    suspend fun getProvisioningToken(): Response<String>
 }
