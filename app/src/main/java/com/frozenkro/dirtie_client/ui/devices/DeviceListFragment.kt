@@ -1,4 +1,6 @@
 package com.frozenkro.dirtie_client.ui.devices
 
-class DeviceListFragment {
+import androidx.fragment.app.Fragment
+
+class DeviceListFragment : Fragment() {
 }

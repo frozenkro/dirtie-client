@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.androidx.navigation.safeargs)
 }
 
 android {
@@ -60,4 +61,13 @@ dependencies {
     // Coroutines for async operations
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    // DI
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.navigation)
+
+    // Navigation
+    implementation(libs.androidx.navigation.fragment.ktx.v277)
+    implementation(libs.androidx.navigation.ui.ktx.v277)
+
 }
