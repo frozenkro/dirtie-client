@@ -61,7 +61,7 @@ class LoginFragment : Fragment() {
         viewModel.loginState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 LoginViewModel.LoginState.Loading -> showLoading()
-                is LoginViewModel.LoginState.Success -> handleLoginSuccess(state.user)
+                is LoginViewModel.LoginState.Success -> handleLoginSuccess()
                 is LoginViewModel.LoginState.Error -> showError(state.message)
             }
         }
@@ -88,7 +88,7 @@ class LoginFragment : Fragment() {
         binding.progressBar.isVisible = true
     }
 
-    private fun handleLoginSuccess(user: User) {
+    private fun handleLoginSuccess() {
         binding.progressBar.isVisible = false
         // Navigate to device list
         findNavController().navigate(

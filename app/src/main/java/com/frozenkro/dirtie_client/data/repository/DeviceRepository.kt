@@ -9,10 +9,11 @@ class DeviceRepository(
 ) {
     suspend fun getDevices(): Result<List<Device>> {
         return try {
-            val token = userRepository.getAuthToken() ?:
-            return Result.failure(Exception("Not authenticated"))
+            if (!userRepository.isUserAuthenticated()) {
+                return Result.failure(Exception("Not authenticated"))
+            }
 
-            val response = api.getDevices("Bearer $token")
+            val response = api.getDevices()
             if (response.isSuccessful && response.body() != null) {
                 Result.success(response.body()!!)
             } else {

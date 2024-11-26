@@ -1,7 +1,7 @@
 package com.frozenkro.dirtie_client.data.api.models
 
-data class User(
-    val userId: Int,
+data class CreateUserArgs(
     val email: String,
+    val password: String,
     val name: String,
 )
