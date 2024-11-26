@@ -18,18 +18,19 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
 
             val result = userRepository.login(email, password)
             _loginState.value = when {
-                result.isSuccess -> LoginState.Success(result.getOrNull()!!)
+                result.isSuccess -> LoginState.Success
                 result.isFailure -> LoginState.Error(
                     result.exceptionOrNull()?.message ?: "Unknown error"
                 )
-                else -> LoginState.Error("Unknown error")
+                else -> LoginState.Error("Unknown server error")
             }
+
         }
     }
 
     sealed class LoginState {
-        object Loading : LoginState()
-        data class Success(val user: User) : LoginState()
+        data object Loading : LoginState()
+        data object Success : LoginState()
         data class Error(val message: String) : LoginState()
     }
 }

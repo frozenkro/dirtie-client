@@ -7,23 +7,28 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-// TODO replace auth token pattern with cookie that the api uses
-
 class UserRepository(private val api: DirtieSrvApi) {
     private val _isAuthenticated = MutableStateFlow(false)
     val isAuthenticated: StateFlow<Boolean> = _isAuthenticated.asStateFlow()
 
-    suspend fun login(email: String, password: String): Result<User> {
+    suspend fun login(email: String, password: String): Result<Unit> {
         return try {
             val response = api.login(LoginRequest(email, password))
-            if (response.isSuccessful && response.body() != null) {
+            if (response.isSuccessful) {
                 _isAuthenticated.value = true
-                Result.success(response.body()!!)
+                Result.success(Unit)
             } else {
-                Result.failure(Exception(response.errorBody()?.string() ?: "Unknown error"))
+                val errorMessage = when (response.code()) {
+                    401 -> "Invalid Credentials"
+                    403 -> "Account Locked"
+                    404 -> "Account Not Found"
+                    500 -> "Server Error"
+                    else -> "Login failed: ${response.code()}"
+                }
+                Result.failure(Exception(errorMessage))
             }
         } catch (e: Exception) {
-            Result.failure(e)
+            Result.failure(Exception("Login failed: ${e.message}"))
         }
     }
 
