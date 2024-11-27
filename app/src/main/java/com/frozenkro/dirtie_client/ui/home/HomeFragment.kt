@@ -13,6 +13,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import com.frozenkro.dirtie_client.R
 import com.frozenkro.dirtie_client.databinding.FragmentHomeBinding
 import com.frozenkro.dirtie_client.ui.devices.DeviceListFragment
@@ -20,6 +21,7 @@ import com.google.android.material.appbar.MaterialToolbar
 
 class HomeFragment : Fragment() {
     private lateinit var toolbar: MaterialToolbar
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,16 +48,14 @@ class HomeFragment : Fragment() {
                         //handle settings click
                         true
                     }
+                    R.id.action_device_provision -> {
+                        navController.navigate(R.id.deviceProvisionFragment)
+                        true
+                    }
                     else -> false
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-        if (savedInstanceState == null) {
-            childFragmentManager.beginTransaction()
-                .replace(R.id.home_content_container, DeviceListFragment())
-                .commit()
-        }
     }
 
 }

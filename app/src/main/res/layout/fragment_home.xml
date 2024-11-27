@@ -17,9 +17,12 @@
         app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
         />
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/home_content_container"
+        android:id="@+id/home_nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        app:navGraph="@navigation/home_nav_graph"
+        app:defaultNavHost="false"
         />
 </LinearLayout>

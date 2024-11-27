@@ -1,4 +1,6 @@
 package com.frozenkro.dirtie_client.ui.provisioning
 
-class DeviceProvisioningFragment {
+import androidx.fragment.app.Fragment
+
+class DeviceProvisioningFragment : Fragment() {
 }
