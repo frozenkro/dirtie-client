@@ -92,7 +92,7 @@ class LoginFragment : Fragment() {
         binding.progressBar.isVisible = false
         // Navigate to device list
         findNavController().navigate(
-            LoginFragmentDirections.actionLoginToDeviceList()
+            LoginFragmentDirections.actionLoginToHome()
         )
     }
 

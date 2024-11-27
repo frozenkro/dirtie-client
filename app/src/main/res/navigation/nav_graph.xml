@@ -18,8 +18,8 @@
             app:destination="@id/registerFragment" />
 
         <action
-            android:id="@+id/action_login_to_deviceList"
-            app:destination="@id/deviceListFragment"
+            android:id="@+id/action_login_to_home"
+            app:destination="@id/homeFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -35,8 +35,9 @@
         android:label="Register" />
 
     <fragment
-        android:id="@+id/deviceListFragment"
-        android:name="com.frozenkro.dirtie_client.ui.devices.DeviceListFragment"
-        android:label="Devices" />
+        android:id="@+id/homeFragment"
+        android:name="com.frozenkro.dirtie_client.ui.home.HomeFragment"
+        android:label="Home"
+        />
 
 </navigation>
