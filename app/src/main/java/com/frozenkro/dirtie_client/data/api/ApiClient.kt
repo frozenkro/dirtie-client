@@ -9,7 +9,7 @@ import java.net.CookieManager
 import java.net.CookiePolicy
 
 object ApiClient {
-    private const val BASE_URL = "http://192.168.0.42:3000/"
+    private const val BASE_URL = "http://192.168.0.42:8080/"
 
     private val cookieManager = CookieManager().apply {
         setCookiePolicy(CookiePolicy.ACCEPT_ALL)
