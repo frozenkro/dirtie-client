@@ -1,8 +1,7 @@
 package com.frozenkro.dirtie_client.data.repository
 
 import com.frozenkro.dirtie_client.data.api.DirtieSrvApi
-import com.frozenkro.dirtie_client.data.api.models.LoginRequest
-import com.frozenkro.dirtie_client.data.api.models.User
+import com.frozenkro.dirtie_client.data.api.models.ApiLoginRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +12,7 @@ class UserRepository(private val api: DirtieSrvApi) {
 
     suspend fun login(email: String, password: String): Result<Unit> {
         return try {
-            val response = api.login(LoginRequest(email, password))
+            val response = api.login(ApiLoginRequest(email, password))
             if (response.isSuccessful) {
                 _isAuthenticated.value = true
                 Result.success(Unit)

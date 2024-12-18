@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.frozenkro.dirtie_client.R
 import com.frozenkro.dirtie_client.databinding.FragmentHomeBinding
 import com.frozenkro.dirtie_client.ui.devices.DeviceListFragment
@@ -36,6 +37,10 @@ class HomeFragment : Fragment() {
 
         toolbar = view.findViewById(R.id.toolbar)
         (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
+
+        val navHostFragment = childFragmentManager
+            .findFragmentById(R.id.home_nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
 
         requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

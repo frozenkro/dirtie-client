@@ -1,7 +1,6 @@
 package com.frozenkro.dirtie_client.data.api.models
 
-data class CreateUserArgs(
+data class ApiLoginRequest(
     val email: String,
     val password: String,
-    val name: String,
 )
