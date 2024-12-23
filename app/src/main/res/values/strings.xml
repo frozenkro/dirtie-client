@@ -10,4 +10,6 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    <string name="no_devices_message">No devices found.\nAdd a device to get started.</string>
 </resources>

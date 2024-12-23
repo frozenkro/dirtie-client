@@ -1,6 +1,6 @@
 package com.frozenkro.dirtie_client.data.api.models
 
-data class ChangePwData(
+data class ApiChangePwData(
     val username: String,
     val success: String,
     val error: Boolean,

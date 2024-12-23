@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.frozenkro.dirtie_client.data.api.models.User
 import com.frozenkro.dirtie_client.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
