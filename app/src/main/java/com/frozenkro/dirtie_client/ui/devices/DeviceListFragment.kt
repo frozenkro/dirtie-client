@@ -6,15 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.frozenkro.dirtie_client.databinding.FragmentDeviceListBinding
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DeviceListFragment : Fragment() {
     private lateinit var binding: FragmentDeviceListBinding
-    private val viewModel: DeviceListViewModel by viewModels()
+    private val viewModel: DeviceListViewModel by viewModel()
     private lateinit var deviceAdapter: DeviceAdapter
 
     override fun onCreateView(

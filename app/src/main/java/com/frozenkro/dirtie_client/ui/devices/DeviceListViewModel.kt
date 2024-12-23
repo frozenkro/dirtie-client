@@ -1,6 +1,7 @@
 package com.frozenkro.dirtie_client.ui.devices
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.frozenkro.dirtie_client.domain.devices.DeviceService
 import com.frozenkro.dirtie_client.domain.models.Device
