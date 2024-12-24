@@ -2,6 +2,7 @@ package com.frozenkro.dirtie_client.di
 
 import com.frozenkro.dirtie_client.data.api.ApiClient
 import com.frozenkro.dirtie_client.data.repository.DeviceRepository
+import com.frozenkro.dirtie_client.data.repository.ProvisionRepository
 import com.frozenkro.dirtie_client.data.repository.UserRepository
 import com.frozenkro.dirtie_client.domain.devices.DeviceService
 import com.frozenkro.dirtie_client.ui.auth.LoginViewModel
@@ -17,6 +18,7 @@ val appModule = module {
     // Repositories
     single { UserRepository(get()) }
     single { DeviceRepository(get(), get()) }
+    single { ProvisionRepository(get(), get()) }
 
     // Services
     single { DeviceService(get(), get()) }

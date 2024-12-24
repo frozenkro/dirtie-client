@@ -28,7 +28,7 @@ interface DirtieSrvApi {
     suspend fun getDevices(): Response<List<ApiDevice>>
 
     @POST("devices/createProvision")
-    suspend fun getProvisioningToken(): Response<String>
+    suspend fun getProvisioningToken(@Query("displayName") displayName: String): Response<String>
 
     @GET("data/capacitance")
     suspend fun getCapacitance(@Query("deviceId") deviceId: Int, @Query("startTime") startTime: String): Response<List<ApiDeviceDataPoint>>

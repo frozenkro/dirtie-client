@@ -12,4 +12,13 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="no_devices_message">No devices found.\nAdd a device to get started.</string>
+    <string name="next">Next</string>
+    <string name="create_device_title">Setup New Device</string>
+    <string name="device_name_hint">Nickname</string>
+    <string name="scan_devices_title">Connect to your Device</string>
+    <string name="connecting_to_device">Searching for device…</string>
+    <string name="device_credentials_title">Configure Wi-Fi</string>
+    <string name="wifi_ssid_hint">Network name</string>
+    <string name="wifi_password_hint">Password</string>
+    <string name="create_device_btn_txt">Create</string>
 </resources>
