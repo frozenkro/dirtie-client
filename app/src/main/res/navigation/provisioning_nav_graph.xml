@@ -9,12 +9,12 @@
         />
     <fragment
         android:id="@+id/scanDevicesFragment"
-        android:name="com.frozenkro.dirtie_client.ui.devices.ScanDevicesFragment"
+        android:name="com.frozenkro.dirtie_client.ui.provisioning.ScanDevicesFragment"
         android:label="ScanDevices"
         />
     <fragment
         android:id="@+id/deviceCredentialFragment"
-        android:name="com.frozenkro.dirtie_client.ui.devices.DeviceCredentialFragment"
+        android:name="com.frozenkro.dirtie_client.ui.provisioning.DeviceCredentialFragment"
         android:label="DeviceCredentials"
         />
     <action id="@+id/complete_provisioning" app:destination="@id/homeFragment"/>
