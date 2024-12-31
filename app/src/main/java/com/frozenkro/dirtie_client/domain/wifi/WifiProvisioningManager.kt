@@ -28,10 +28,11 @@ class WifiProvisioningManager(private val context: Context) {
             return false
         }
 
-        return connectToWifiAndroid10Plus(ssid)
+        return connectToDeviceWifi(ssid)
     }
 
-    private suspend fun connectToWifiAndroid10Plus(ssid: String): Boolean =
+    // Only works for android 10+
+    private suspend fun connectToDeviceWifi(ssid: String): Boolean =
         suspendCancellableCoroutine { continuation ->
             val specifier = WifiNetworkSpecifier.Builder()
                 .setSsid(ssid)
