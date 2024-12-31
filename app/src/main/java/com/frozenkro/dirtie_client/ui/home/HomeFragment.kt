@@ -13,14 +13,19 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.frozenkro.dirtie_client.R
 import com.frozenkro.dirtie_client.databinding.FragmentHomeBinding
 import com.frozenkro.dirtie_client.ui.devices.DeviceListFragment
+import com.frozenkro.dirtie_client.ui.provisioning.DeviceProvisioningSharedViewModel
 import com.google.android.material.appbar.MaterialToolbar
+import kotlinx.coroutines.launch
 
-class HomeFragment : Fragment() {
+class HomeFragment(
+    private val provisioningSharedViewModel: DeviceProvisioningSharedViewModel
+) : Fragment() {
     private lateinit var toolbar: MaterialToolbar
     private lateinit var navController: NavController
 
@@ -61,6 +66,15 @@ class HomeFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            provisioningSharedViewModel.completed.collect { state ->
+                if (state) {
+                    navController.navigate(R.id.deviceListFragment)
+                }
+            }
+
+        }
     }
 
 }

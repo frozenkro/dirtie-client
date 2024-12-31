@@ -3,8 +3,11 @@ package com.frozenkro.dirtie_client.ui.provisioning
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.frozenkro.dirtie_client.R
 import com.frozenkro.dirtie_client.databinding.FragmentDeviceProvisioningBinding
@@ -18,12 +21,18 @@ class DeviceProvisioningFragment(
 ) : Fragment() {
     private val _binding: FragmentDeviceProvisioningBinding? = null
     private val binding get() = _binding!!
-    private val nextButton: Button get() = binding.provisioningNextBtn
+    private val nextButton: MaterialButton get() = binding.provisioningNextBtn
+    private lateinit var navController: NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {
             createDeviceViewModel.uiState.collect { state -> handleDpUiState(state) }
         }
+
+        val navHostFragment = childFragmentManager
+            .findFragmentById(R.id.provisioning_nav_host) as NavHostFragment
+        navController = navHostFragment.navController
 
         nextButton.setOnClickListener {
             when (findNavController().currentDestination?.id) {
@@ -49,7 +58,7 @@ class DeviceProvisioningFragment(
                 nextButton.setLoadingState(false)
             }
             is DpUiState.Success -> {
-
+                goNext()
             }
             else -> {
                 nextButton.isEnabled = true
@@ -58,21 +67,42 @@ class DeviceProvisioningFragment(
         }
     }
 
-    fun goNext()
+    fun goNext() {
+        when (sharedViewModel.currentStage.value) {
+            is ProvisioningStage.Create -> {
+                navController.navigate(R.id.scanDevicesFragment)
+            }
+            is ProvisioningStage.Connect -> {
+                navController.navigate(R.id.deviceCredentialFragment)
+            }
+            is ProvisioningStage.Complete -> {
+
+            }
+            else -> {
+                throw Exception("No next handler configured for state " + sharedViewModel.currentStage.value)
+            }
+        }
+
+    }
 }
 
 fun MaterialButton.setLoadingState(isLoading: Boolean) {
+    iconGravity = MaterialButton.ICON_GRAVITY_TEXT_START
+    insetTop = 0
+    insetBottom = 0
+
     if (isLoading) {
         text = ""
         isClickable = false
-        setInsetToNull()
-        CircularProgressIndicator(context).apply {
-            layoutParams = LayoutParams(24.dp, 24.dp)
-            addView(this)
+
+        val progressIndicator = CircularProgressIndicator(context).apply {
+            isIndeterminate = true
+            layoutParams = LinearLayout.LayoutParams(48, 48)
         }
+        icon = progressIndicator.indeterminateDrawable
     } else {
         text = context.getString(R.string.next)
         isClickable = true
-        removeAllViews()
+        icon = null
     }
 }
