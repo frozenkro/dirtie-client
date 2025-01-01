@@ -10,6 +10,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.net.wifi.WifiNetworkSpecifier
 import androidx.core.content.ContextCompat
+import com.frozenkro.dirtie_client.ui.provisioning.DeviceProvisioningSharedViewModel
 import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -19,7 +20,10 @@ import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 
-class WifiProvisioningManager(private val context: Context) {
+class WifiProvisioningManager(
+    private val context: Context,
+    private val deviceProvisioningSharedViewModel: DeviceProvisioningSharedViewModel
+) {
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -49,6 +53,7 @@ class WifiProvisioningManager(private val context: Context) {
                     super.onAvailable(network)
                     // Bind this network to get the device's traffic
                     connectivityManager.bindProcessToNetwork(network)
+                    deviceProvisioningSharedViewModel.networkFound.value = true
                     continuation.resume(true)
                 }
 

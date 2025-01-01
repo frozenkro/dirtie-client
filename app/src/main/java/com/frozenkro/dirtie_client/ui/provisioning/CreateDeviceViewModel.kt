@@ -6,7 +6,6 @@ import com.frozenkro.dirtie_client.data.repository.ProvisionRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CreateDeviceViewModel(
     private val provisionRepository: ProvisionRepository,
@@ -21,7 +20,7 @@ class CreateDeviceViewModel(
         try {
             val res = provisionRepository.createProvision(deviceName.value)
             res.onSuccess {
-                _uiState.value = DpUiState.Success
+                _uiState.value = DpUiState.Continue
             }
             res.onFailure {
                 _uiState.value = DpUiState.Error(res.exceptionOrNull()?.message ?: "Unknown Error")

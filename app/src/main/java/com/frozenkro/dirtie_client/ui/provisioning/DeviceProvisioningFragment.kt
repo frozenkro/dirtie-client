@@ -2,7 +2,6 @@ package com.frozenkro.dirtie_client.ui.provisioning
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -14,15 +13,17 @@ import com.frozenkro.dirtie_client.databinding.FragmentDeviceProvisioningBinding
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DeviceProvisioningFragment(
-    private val sharedViewModel: DeviceProvisioningSharedViewModel,
     private val createDeviceViewModel: CreateDeviceViewModel,
 ) : Fragment() {
     private val _binding: FragmentDeviceProvisioningBinding? = null
     private val binding get() = _binding!!
     private val nextButton: MaterialButton get() = binding.provisioningNextBtn
     private lateinit var navController: NavController
+    private val viewModel: DeviceProvisioningViewModel by viewModel()
+    private val sharedViewModel: DeviceProvisioningSharedViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,11 +36,8 @@ class DeviceProvisioningFragment(
         navController = navHostFragment.navController
 
         nextButton.setOnClickListener {
-            when (findNavController().currentDestination?.id) {
-                R.id.createDeviceFragment -> {
-                    createDeviceViewModel.createDevice()
-                }
-            }
+            val destId = findNavController().currentDestination?.id
+            viewModel.handleNextClicked(destId)
         }
     }
 
@@ -57,7 +55,7 @@ class DeviceProvisioningFragment(
                 nextButton.isEnabled = false
                 nextButton.setLoadingState(false)
             }
-            is DpUiState.Success -> {
+            is DpUiState.Continue -> {
                 goNext()
             }
             else -> {

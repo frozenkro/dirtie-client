@@ -5,8 +5,12 @@ import com.frozenkro.dirtie_client.data.repository.DeviceRepository
 import com.frozenkro.dirtie_client.data.repository.ProvisionRepository
 import com.frozenkro.dirtie_client.data.repository.UserRepository
 import com.frozenkro.dirtie_client.domain.devices.DeviceService
+import com.frozenkro.dirtie_client.domain.wifi.WifiProvisioningManager
 import com.frozenkro.dirtie_client.ui.auth.LoginViewModel
 import com.frozenkro.dirtie_client.ui.devices.DeviceListViewModel
+import com.frozenkro.dirtie_client.ui.home.HomeViewModel
+import com.frozenkro.dirtie_client.ui.provisioning.CreateDeviceViewModel
+import com.frozenkro.dirtie_client.ui.provisioning.DeviceProvisioningSharedViewModel
 import com.frozenkro.dirtie_client.util.CoroutineDispatchers
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -22,6 +26,7 @@ val appModule = module {
 
     // Services
     single { DeviceService(get(), get()) }
+    single { WifiProvisioningManager(get(), get()) }
 
     // Utils
     single { CoroutineDispatchers() }
@@ -29,4 +34,7 @@ val appModule = module {
     // ViewModels
     viewModel { LoginViewModel(get()) }
     viewModel { DeviceListViewModel(get()) }
+    viewModel { DeviceProvisioningSharedViewModel() }
+    viewModel { HomeViewModel() }
+    viewModel { CreateDeviceViewModel(get(), get()) }
 }
