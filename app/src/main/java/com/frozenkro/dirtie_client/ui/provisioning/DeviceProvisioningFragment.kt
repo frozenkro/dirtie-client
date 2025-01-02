@@ -1,7 +1,9 @@
 package com.frozenkro.dirtie_client.ui.provisioning
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -16,12 +18,21 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DeviceProvisioningFragment : Fragment() {
-    private val _binding: FragmentDeviceProvisioningBinding? = null
+    private var _binding: FragmentDeviceProvisioningBinding? = null
     private val binding get() = _binding!!
     private val nextButton: MaterialButton get() = binding.provisioningNextBtn
     private lateinit var navController: NavController
     private val viewModel: DeviceProvisioningViewModel by viewModel()
     private val sharedViewModel: DeviceProvisioningSharedViewModel by viewModel()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentDeviceProvisioningBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,14 +40,14 @@ class DeviceProvisioningFragment : Fragment() {
             sharedViewModel.uiState.collect { state -> handleDpUiState(state) }
         }
 
-        val navHostFragment = childFragmentManager
-            .findFragmentById(R.id.provisioning_nav_host) as NavHostFragment
-        navController = navHostFragment.navController
-
         nextButton.setOnClickListener {
             val destId = findNavController().currentDestination?.id
             viewModel.handleNextClicked(destId)
         }
+
+        val navHostFragment = childFragmentManager
+            .findFragmentById(R.id.provisioning_nav_host) as NavHostFragment
+        navController = navHostFragment.navController
     }
 
     fun handleDpUiState(state: DpUiState) {

@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/provisioning_nav_graph">
+    android:id="@+id/provisioning_nav_graph"
+    app:startDestination="@id/createDeviceFragment">
     <fragment
         android:id="@+id/createDeviceFragment"
         android:name="com.frozenkro.dirtie_client.ui.provisioning.CreateDeviceFragment"
-        android:label="CreateDevice"
+        android:label="CreateDevice">
+
+        <action
+            android:id="@+id/action_createdevice_to_scandevices"
+            app:destination="@id/scanDevicesFragment"
         />
+    </fragment>
     <fragment
         android:id="@+id/scanDevicesFragment"
         android:name="com.frozenkro.dirtie_client.ui.provisioning.ScanDevicesFragment"
-        android:label="ScanDevices"
-        />
+        android:label="ScanDevices">
+
+        <action
+            android:id="@+id/action_scandevices_to_devicecredential"
+            app:destination="@id/deviceCredentialFragment"
+            />
+    </fragment>
     <fragment
         android:id="@+id/deviceCredentialFragment"
         android:name="com.frozenkro.dirtie_client.ui.provisioning.DeviceCredentialFragment"
         android:label="DeviceCredentials"
         />
-    <action android:id="@+id/complete_provisioning" app:destination="@id/homeFragment"/>
 </navigation>

@@ -10,8 +10,16 @@
         android:label="Devices"
         />
     <fragment
-        android:id="@+id/deviceProvisionFragment"
+        android:id="@+id/deviceProvisioningFragment"
         android:name="com.frozenkro.dirtie_client.ui.provisioning.DeviceProvisioningFragment"
         android:label="Provision"
+        />
+    <action
+        android:id="@+id/action_go_home"
+        app:destination="@id/deviceListFragment"
+        />
+    <action
+        android:id="@+id/action_start_provisioning"
+        app:destination="@id/deviceProvisioningFragment"
         />
 </navigation>

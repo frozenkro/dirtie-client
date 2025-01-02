@@ -7,21 +7,14 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.frozenkro.dirtie_client.R
-import com.frozenkro.dirtie_client.databinding.FragmentHomeBinding
-import com.frozenkro.dirtie_client.ui.devices.DeviceListFragment
-import com.frozenkro.dirtie_client.ui.provisioning.DeviceProvisioningSharedViewModel
 import com.google.android.material.appbar.MaterialToolbar
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
@@ -60,7 +53,7 @@ class HomeFragment : Fragment() {
                         true
                     }
                     R.id.action_device_provision -> {
-                        navController.navigate(R.id.deviceProvisionFragment)
+                        navController.navigate(R.id.action_start_provisioning)
                         true
                     }
                     else -> false
@@ -69,7 +62,7 @@ class HomeFragment : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         viewModel.goHome.observe(viewLifecycleOwner) { _ ->
-            navController.navigate(R.id.deviceListFragment)
+            navController.navigate(R.id.action_go_home)
         }
 
     }
