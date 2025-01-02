@@ -15,9 +15,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DeviceProvisioningFragment(
-    private val createDeviceViewModel: CreateDeviceViewModel,
-) : Fragment() {
+class DeviceProvisioningFragment : Fragment() {
     private val _binding: FragmentDeviceProvisioningBinding? = null
     private val binding get() = _binding!!
     private val nextButton: MaterialButton get() = binding.provisioningNextBtn
@@ -28,7 +26,7 @@ class DeviceProvisioningFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {
-            createDeviceViewModel.uiState.collect { state -> handleDpUiState(state) }
+            sharedViewModel.uiState.collect { state -> handleDpUiState(state) }
         }
 
         val navHostFragment = childFragmentManager
@@ -74,7 +72,7 @@ class DeviceProvisioningFragment(
                 navController.navigate(R.id.deviceCredentialFragment)
             }
             is ProvisioningStage.Complete -> {
-
+                viewModel.complete()
             }
             else -> {
                 throw Exception("No next handler configured for state " + sharedViewModel.currentStage.value)

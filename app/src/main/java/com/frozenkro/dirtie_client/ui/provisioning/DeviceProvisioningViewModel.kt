@@ -1,8 +1,6 @@
 package com.frozenkro.dirtie_client.ui.provisioning
 
 import androidx.lifecycle.ViewModel
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.frozenkro.dirtie_client.R
 
 class DeviceProvisioningViewModel(
@@ -11,14 +9,29 @@ class DeviceProvisioningViewModel(
     private val scanDevicesViewModel: ScanDevicesViewModel,
     private val deviceCredentialViewModel: DeviceCredentialViewModel
 ) : ViewModel() {
+
     fun handleNextClicked(destId: Int?) {
+
         when (destId) {
             R.id.createDeviceFragment -> {
-                createDeviceViewModel.createDevice()
+                createDeviceViewModel
             }
+
             R.id.scanDevicesFragment -> {
-                scanDevicesViewModel.uiState.value = DpUiState.Continue
+                scanDevicesViewModel
             }
-        }
+
+            R.id.deviceCredentialFragment -> {
+                deviceCredentialViewModel
+            }
+
+            else -> {
+                null
+            }
+        }?.handleNextClick()
+    }
+
+    fun complete() {
+        sharedViewModel.complete()
     }
 }

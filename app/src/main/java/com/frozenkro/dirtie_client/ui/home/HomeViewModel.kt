@@ -1,13 +1,21 @@
 package com.frozenkro.dirtie_client.ui.home
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.frozenkro.dirtie_client.ui.provisioning.DeviceProvisioningSharedViewModel
+import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(
+    private val sharedViewModel: DeviceProvisioningSharedViewModel
+) : ViewModel() {
+    val goHome = MutableLiveData<Unit>()
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    fun init() {
+        viewModelScope.launch {
+            sharedViewModel.completed.collect { _ ->
+                goHome.value = Unit
+            }
+        }
     }
-    val text: LiveData<String> = _text
 }

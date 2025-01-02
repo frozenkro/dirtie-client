@@ -22,12 +22,12 @@ import com.frozenkro.dirtie_client.ui.devices.DeviceListFragment
 import com.frozenkro.dirtie_client.ui.provisioning.DeviceProvisioningSharedViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment(
-    private val provisioningSharedViewModel: DeviceProvisioningSharedViewModel
-) : Fragment() {
+class HomeFragment : Fragment() {
     private lateinit var toolbar: MaterialToolbar
     private lateinit var navController: NavController
+    private val viewModel: HomeViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +39,7 @@ class HomeFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.init()
 
         toolbar = view.findViewById(R.id.toolbar)
         (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
@@ -67,14 +68,10 @@ class HomeFragment(
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            provisioningSharedViewModel.completed.collect { state ->
-                if (state) {
-                    navController.navigate(R.id.deviceListFragment)
-                }
-            }
-
+        viewModel.goHome.observe(viewLifecycleOwner) { _ ->
+            navController.navigate(R.id.deviceListFragment)
         }
+
     }
 
 }

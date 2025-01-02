@@ -10,7 +10,10 @@ import com.frozenkro.dirtie_client.ui.auth.LoginViewModel
 import com.frozenkro.dirtie_client.ui.devices.DeviceListViewModel
 import com.frozenkro.dirtie_client.ui.home.HomeViewModel
 import com.frozenkro.dirtie_client.ui.provisioning.CreateDeviceViewModel
+import com.frozenkro.dirtie_client.ui.provisioning.DeviceCredentialViewModel
 import com.frozenkro.dirtie_client.ui.provisioning.DeviceProvisioningSharedViewModel
+import com.frozenkro.dirtie_client.ui.provisioning.DeviceProvisioningViewModel
+import com.frozenkro.dirtie_client.ui.provisioning.ScanDevicesViewModel
 import com.frozenkro.dirtie_client.util.CoroutineDispatchers
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -35,6 +38,9 @@ val appModule = module {
     viewModel { LoginViewModel(get()) }
     viewModel { DeviceListViewModel(get()) }
     viewModel { DeviceProvisioningSharedViewModel() }
-    viewModel { HomeViewModel() }
+    viewModel { HomeViewModel(get()) }
     viewModel { CreateDeviceViewModel(get(), get()) }
+    viewModel { ScanDevicesViewModel(get()) }
+    viewModel { DeviceCredentialViewModel(get()) }
+    viewModel { DeviceProvisioningViewModel(get(), get(), get(), get()) }
 }

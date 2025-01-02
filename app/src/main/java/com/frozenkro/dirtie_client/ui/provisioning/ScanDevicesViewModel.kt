@@ -5,8 +5,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class ScanDevicesViewModel(
-    private val deviceProvisioningSharedViewModel: DeviceProvisioningSharedViewModel
-) : ViewModel() {
-    private val _uiState = MutableStateFlow<DpUiState>(DpUiState.Initial)
-    val uiState = _uiState.asStateFlow()
+    private val sharedViewModel: DeviceProvisioningSharedViewModel
+) : ViewModel(), NextClickHandler {
+
+    override fun handleNextClick() {
+        sharedViewModel.uiState.value = DpUiState.Continue
+    }
 }

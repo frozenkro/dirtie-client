@@ -17,5 +17,5 @@
         android:name="com.frozenkro.dirtie_client.ui.provisioning.DeviceCredentialFragment"
         android:label="DeviceCredentials"
         />
-    <action id="@+id/complete_provisioning" app:destination="@id/homeFragment"/>
+    <action android:id="@+id/complete_provisioning" app:destination="@id/homeFragment"/>
 </navigation>
