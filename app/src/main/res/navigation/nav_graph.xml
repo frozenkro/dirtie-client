@@ -37,7 +37,16 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.frozenkro.dirtie_client.ui.home.HomeFragment"
-        android:label="Home"
-        />
+        android:label="Home">
+        <action
+            android:id="@+id/action_home_to_provisioning"
+            app:destination="@id/deviceProvisioningFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/deviceProvisioningFragment"
+        android:name="com.frozenkro.dirtie_client.ui.provisioning.DeviceProvisioningFragment"
+        android:label="Provision Device" />
+
 
 </navigation>

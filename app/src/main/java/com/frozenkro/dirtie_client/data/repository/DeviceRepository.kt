@@ -29,6 +29,23 @@ class DeviceRepository(
         }
     }
 
+    suspend fun getProvisioningToken(): Result<String> {
+        return try {
+            if (!userRepository.isUserAuthenticated()) {
+                return Result.failure(Exception("Not authenticated"))
+            }
+
+            val response = api.getProvisioningToken()
+            if (response.isSuccessful && response.body() != null) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception(response.errorBody()?.string() ?: "Unknown error"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     suspend fun getCapacitance(deviceId: Int, days: Int): Result<List<ApiDeviceDataPoint>> {
         return try {
             if (!userRepository.isUserAuthenticated()) {

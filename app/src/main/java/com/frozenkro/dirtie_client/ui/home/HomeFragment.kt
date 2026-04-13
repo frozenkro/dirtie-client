@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
                         true
                     }
                     R.id.action_device_provision -> {
-                        navController.navigate(R.id.deviceProvisionFragment)
+                        navController.navigate(R.id.deviceProvisioningFragment)
                         true
                     }
                     else -> false

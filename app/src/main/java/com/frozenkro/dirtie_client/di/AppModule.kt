@@ -20,6 +20,7 @@ val appModule = module {
 
     // Services
     single { DeviceService(get(), get()) }
+    single { WifiProvisioningManager(get()) }
 
     // Utils
     single { CoroutineDispatchers() }
@@ -27,4 +28,5 @@ val appModule = module {
     // ViewModels
     viewModel { LoginViewModel(get()) }
     viewModel { DeviceListViewModel(get()) }
-}
+    viewModel { DeviceProvisioningViewModel(get(), get(), get()) }
+
