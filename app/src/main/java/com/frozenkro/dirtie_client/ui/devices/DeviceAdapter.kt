@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.frozenkro.dirtie_client.databinding.ItemDeviceBinding
 import com.frozenkro.dirtie_client.domain.models.Device
 
-class DeviceAdapter : ListAdapter<Device, DeviceAdapter.DeviceViewHolder>(DeviceDiffCallback()) {
+class DeviceAdapter(
+    private val onDeviceClick: (Int) -> Unit
+) : ListAdapter<Device, DeviceAdapter.DeviceViewHolder>(DeviceDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviceViewHolder {
         val binding = ItemDeviceBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -18,22 +20,24 @@ class DeviceAdapter : ListAdapter<Device, DeviceAdapter.DeviceViewHolder>(Device
         return DeviceViewHolder(binding)
     }
     override fun onBindViewHolder(holder: DeviceViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), onDeviceClick)
     }
 
     class DeviceViewHolder(
         private val binding: ItemDeviceBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(device: Device){
+        fun bind(device: Device, onClick: (Int) -> Unit){
             binding.deviceName.text = device.name
-            binding.deviceReading.text = device.currentCapacitance.toString()
+            binding.deviceReading.text = "Cap: ${device.currentCapacitance.toInt()}"
+            binding.deviceTemp.text = "Temp: ${device.currentTemperature.toInt()}°C"
+            binding.root.setOnClickListener { onClick(device.id) }
         }
     }
 }
 
 class DeviceDiffCallback : DiffUtil.ItemCallback<Device>() {
     override fun areItemsTheSame(oldItem: Device, newItem: Device): Boolean {
-        return oldItem.name == newItem.name
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Device, newItem: Device): Boolean {

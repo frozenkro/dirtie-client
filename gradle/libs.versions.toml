@@ -22,9 +22,11 @@ navigationUiKtxVersion = "2.7.7"
 nav = "2.7.7"
 retrofit = "2.9.0"
 okhttp = "4.12.0"
+mpandroidchart = "3.1.0"
 security-crypto = "1.1.0-alpha06"
 
 [libraries]
+mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }

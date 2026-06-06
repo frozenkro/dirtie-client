@@ -18,7 +18,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
-import java.text.DateFormat
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 
 class DeviceService(
     private val deviceRepository: DeviceRepository,
@@ -41,20 +42,36 @@ class DeviceService(
                 deviceReq.onSuccess { devices ->
                     val capacitance = devices.map { device ->
                         async {
-                            deviceRepository.getCapacitance(device.deviceId, 30)
+                            runCatching {
+                                deviceRepository.getCapacitance(device.deviceId, 30)
+                            }.getOrDefault(Result.success(emptyList()))
                         }
                     }.awaitAll()
 
-                    val deviceMap = devices.zip(capacitance) { device, readings ->
-                        val sortedReadings = readings.getOrDefault(emptyList<ApiDeviceDataPoint>())
+                    val temperature = devices.map { device ->
+                        async {
+                            runCatching {
+                                deviceRepository.getTemperature(device.deviceId, 30)
+                            }.getOrDefault(Result.success(emptyList()))
+                        }
+                    }.awaitAll()
+
+                    val deviceMap = devices.mapIndexed { index, device ->
+                        val capReadings = capacitance[index].getOrDefault(emptyList<ApiDeviceDataPoint>())
+                            .map { it.toReading() }
+                            .sortedByDescending { it.timestamp }
+
+                        val tempReadings = temperature[index].getOrDefault(emptyList<ApiDeviceDataPoint>())
                             .map { it.toReading() }
                             .sortedByDescending { it.timestamp }
 
                         Device(
                             id = device.deviceId,
                             name = device.displayName,
-                            currentCapacitance = sortedReadings.firstOrNull()?.value ?: 0.0,
-                            historicalCapacitance = sortedReadings
+                            currentCapacitance = capReadings.firstOrNull()?.value ?: 0.0,
+                            historicalCapacitance = capReadings,
+                            currentTemperature = tempReadings.firstOrNull()?.value ?: 0.0,
+                            historicalTemperature = tempReadings
                         )
                     }.associateBy { it.id }
 
@@ -72,9 +89,20 @@ class DeviceService(
     fun getDeviceReadings(deviceId: Int): Flow<List<Reading>> = deviceCache
         .map { it[deviceId]?.historicalCapacitance ?: emptyList() }
 
+    fun getDeviceTemperatureReadings(deviceId: Int): Flow<List<Reading>> = deviceCache
+        .map { it[deviceId]?.historicalTemperature ?: emptyList() }
+
     private fun ApiDeviceDataPoint.toReading(): Reading {
-        val df = DateFormat.getDateInstance()
-        val timestamp = df.parse(time)?.toInstant() ?: throw Exception()
+        val timestamp = try {
+            Instant.parse(time)
+        } catch (e: Exception) {
+            // Fallback: try common ISO-8601 patterns server might send
+            try {
+                DateTimeFormatter.ISO_DATE_TIME.parse(time, Instant::from)
+            } catch (_: Exception) {
+                Instant.now()
+            }
+        }
         return Reading(
             timestamp = timestamp.epochSecond,
             value = value.toDouble()

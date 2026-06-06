@@ -1,7 +1,9 @@
 package com.frozenkro.dirtie_client.data.repository
 
 import com.frozenkro.dirtie_client.data.api.DirtieSrvApi
+import com.frozenkro.dirtie_client.data.api.models.ApiCreateUserArgs
 import com.frozenkro.dirtie_client.data.api.models.ApiLoginRequest
+import com.frozenkro.dirtie_client.data.api.models.ApiUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -41,6 +43,19 @@ class UserRepository(private val api: DirtieSrvApi) {
 
     // Helper function to check if user is authenticated
     fun isUserAuthenticated() = _isAuthenticated.value
+
+    suspend fun register(name: String, email: String, password: String): Result<ApiUser> {
+        return try {
+            val response = api.createUser(ApiCreateUserArgs(email, password, name))
+            if (response.isSuccessful) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception(response.errorBody()?.string() ?: "Unknown error"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
     suspend fun forgotPassword(email: String): Result<Unit> {
         return try {

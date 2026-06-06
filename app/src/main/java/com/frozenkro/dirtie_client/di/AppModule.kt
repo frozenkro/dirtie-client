@@ -4,8 +4,13 @@ import com.frozenkro.dirtie_client.data.api.ApiClient
 import com.frozenkro.dirtie_client.data.repository.DeviceRepository
 import com.frozenkro.dirtie_client.data.repository.UserRepository
 import com.frozenkro.dirtie_client.domain.devices.DeviceService
+import com.frozenkro.dirtie_client.domain.wifi.WifiProvisioningManager
+import com.frozenkro.dirtie_client.ui.auth.ForgotPasswordViewModel
 import com.frozenkro.dirtie_client.ui.auth.LoginViewModel
+import com.frozenkro.dirtie_client.ui.auth.RegisterViewModel
+import com.frozenkro.dirtie_client.ui.devices.DeviceChartViewModel
 import com.frozenkro.dirtie_client.ui.devices.DeviceListViewModel
+import com.frozenkro.dirtie_client.ui.provisioning.DeviceProvisioningViewModel
 import com.frozenkro.dirtie_client.util.CoroutineDispatchers
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -27,6 +32,10 @@ val appModule = module {
 
     // ViewModels
     viewModel { LoginViewModel(get()) }
+    viewModel { ForgotPasswordViewModel(get()) }
+    viewModel { RegisterViewModel(get()) }
     viewModel { DeviceListViewModel(get()) }
     viewModel { DeviceProvisioningViewModel(get(), get(), get()) }
+    viewModel { DeviceChartViewModel(get()) }
 
+}

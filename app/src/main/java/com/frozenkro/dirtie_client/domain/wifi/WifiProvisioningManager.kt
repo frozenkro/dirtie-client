@@ -18,6 +18,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
+import android.util.Log
+import kotlinx.coroutines.delay
 
 class WifiProvisioningManager(private val context: Context) {
     private val connectivityManager =
@@ -71,29 +73,36 @@ class WifiProvisioningManager(private val context: Context) {
         password: String,
         provisioningToken: String
     ): Boolean {
-        return try {
-            // Assuming device hosts a simple HTTP server at 192.168.4.1
-            val client = OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .build()
+        val client = OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .build()
 
-            val request = Request.Builder()
-                .url("http://192.168.4.1/provision")
-                .post(
-                    JSONObject().apply {
-                        put("ssid", ssid)
-                        put("password", password)
-                        put("token", provisioningToken)
-                    }.toString().toRequestBody("application/json".toMediaType())
-                )
-                .build()
+        val requestBody = JSONObject().apply {
+            put("ssid", ssid)
+            put("password", password)
+            put("token", provisioningToken)
+        }.toString().toRequestBody("application/json".toMediaType())
 
-            client.newCall(request).execute().use { response ->
-                response.isSuccessful
+        val request = Request.Builder()
+            .url("http://192.168.4.1/provision")
+            .post(requestBody)
+            .build()
+
+        repeat(3) { attempt ->
+            try {
+                client.newCall(request).execute().use { response ->
+                    if (response.isSuccessful) {
+                        return true
+                    }
+                }
+            } catch (e: Exception) {
+                Log.w("WifiProvisioning", "Attempt ${attempt + 1} failed: ${e.message}")
             }
-        } catch (e: Exception) {
-            false
+            if (attempt < 2) {
+                kotlinx.coroutines.delay(2000)
+            }
         }
+        return false
     }
 
     private fun hasLocationPermission(): Boolean {

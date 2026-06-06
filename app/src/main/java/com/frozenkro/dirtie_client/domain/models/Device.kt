@@ -5,4 +5,6 @@ data class Device (
     val name: String,
     val currentCapacitance: Double,
     val historicalCapacitance: List<Reading>,
+    val currentTemperature: Double = 0.0,
+    val historicalTemperature: List<Reading> = emptyList(),
 )

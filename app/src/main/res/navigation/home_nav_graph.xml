@@ -3,12 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/home_nav_graph"
     app:startDestination="@id/deviceListFragment">
-
     <fragment
         android:id="@+id/deviceListFragment"
         android:name="com.frozenkro.dirtie_client.ui.devices.DeviceListFragment"
-        android:label="Devices"
-        />
+        android:label="Devices">
+        <action
+            android:id="@+id/action_deviceList_to_detail"
+            app:destination="@id/deviceDetailFragment">
+            <argument
+              android:name="deviceId"
+              app:argType="integer"
+              android:defaultValue="-1" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/deviceDetailFragment"
+        android:name="com.frozenkro.dirtie_client.ui.devices.DeviceDetailFragment"
+        android:label="Device Details">
+        <action
+            android:id="@+id/action_deviceDetail_to_chart"
+            app:destination="@id/deviceChartFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/deviceChartFragment"
+        android:name="com.frozenkro.dirtie_client.ui.devices.DeviceChartFragment"
+        android:label="Device Chart">
+        <argument
+            android:name="deviceId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+
     <fragment
         android:id="@+id/deviceProvisionFragment"
         android:name="com.frozenkro.dirtie_client.ui.provisioning.DeviceProvisioningFragment"

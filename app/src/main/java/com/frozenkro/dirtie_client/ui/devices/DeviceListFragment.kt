@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.findNavController
 import com.frozenkro.dirtie_client.databinding.FragmentDeviceListBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,7 +34,10 @@ class DeviceListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        deviceAdapter = DeviceAdapter()
+        deviceAdapter = DeviceAdapter { deviceId ->
+            val action = DeviceListFragmentDirections.actionDeviceListToDetail(deviceId)
+            findNavController().navigate(action)
+        }
         binding.recyclerView.apply {
             adapter = deviceAdapter
             layoutManager = LinearLayoutManager(context)

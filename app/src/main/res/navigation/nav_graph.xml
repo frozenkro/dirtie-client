@@ -48,5 +48,23 @@
         android:name="com.frozenkro.dirtie_client.ui.provisioning.DeviceProvisioningFragment"
         android:label="Provision Device" />
 
+    <fragment
+        android:id="@+id/deviceDetailFragment"
+        android:name="com.frozenkro.dirtie_client.ui.devices.DeviceDetailFragment"
+        android:label="Device Details">
+        <action
+            android:id="@+id/action_deviceDetail_to_chart"
+            app:destination="@id/deviceChartFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/deviceChartFragment"
+        android:name="com.frozenkro.dirtie_client.ui.devices.DeviceChartFragment"
+        android:label="Device Chart">
+        <argument
+            android:name="deviceId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 
 </navigation>

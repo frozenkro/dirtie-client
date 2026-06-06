@@ -5,6 +5,7 @@ import com.frozenkro.dirtie_client.data.api.models.ApiLoginRequest
 import com.frozenkro.dirtie_client.data.api.models.ApiUser
 import com.frozenkro.dirtie_client.data.api.models.ApiDevice
 import com.frozenkro.dirtie_client.data.api.models.ApiDeviceDataPoint
+import com.frozenkro.dirtie_client.data.api.models.ApiProvisioningToken
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -28,7 +29,7 @@ interface DirtieSrvApi {
     suspend fun getDevices(): Response<List<ApiDevice>>
 
     @POST("devices/createProvision")
-    suspend fun getProvisioningToken(): Response<String>
+    suspend fun getProvisioningToken(): Response<ApiProvisioningToken>
 
     @GET("data/capacitance")
     suspend fun getCapacitance(@Query("deviceId") deviceId: Int, @Query("startTime") startTime: String): Response<List<ApiDeviceDataPoint>>
